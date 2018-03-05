@@ -1,86 +1,212 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title></title>
-</head>
-<body style="background-color: black">
-<canvas id='cavs' style='position:fixed; z-index:-1;'></canvas>
-</body>
-</html>
-<script type="text/javascript">
-var canvas = document.getElementById("cavs");
-const WIDTH = window.innerWidth;
-const HEIGHT = window.innerHeight;
-canvas.setAttribute("width", WIDTH);
-canvas.setAttribute("height", HEIGHT);
-var context = canvas.getContext("2d");
-var start =
-{
-    loves: [],
-    DURATION: 30,
-    begin: function()
-    {
-        this.createLove();
-    },
-    createLove: function()
-    {
-        for (var i = 0; i < WIDTH / 59; i++)
-        {
-            var love = new Love();
-            this.loves.push(love);
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0027)http://itzoo.info/love.html -->
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Love</title>
+        
+        <link type="text/css" rel="stylesheet" href="./love_files/default.css">
+        <script type="text/javascript" src="./love_files/jquery.min.js"></script>
+        <script type="text/javascript" src="./love_files/jscex.min.js"></script>
+        <script type="text/javascript" src="./love_files/jscex-parser.js"></script>
+        <script type="text/javascript" src="./love_files/jscex-jit.js"></script>
+        <script type="text/javascript" src="./love_files/jscex-builderbase.min.js"></script>
+        <script type="text/javascript" src="./love_files/jscex-async.min.js"></script>
+        <script type="text/javascript" src="./love_files/jscex-async-powerpack.min.js"></script>
+        <script type="text/javascript" src="./love_files/functions.js" charset="utf-8"></script>
+        <script type="text/javascript" src="./love_files/love.js" charset="utf-8"></script>
+
+    </head>
+    <body>
+        <div id="main">
+            <div id="error">亲，您使用的浏览器无法支持即将显示的内容，请换成谷歌(<a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>)或者火狐(<a href="http://firefox.com.cn/download/">Firefox</a>)浏览器哟~</div>
+            <div id="wrap">
+               <div id="text">
+                    <div id="code">                 
+                    <span class="say">2018年2月12日，</span><br>
+                    <span class="say">我有幸认识了宝贝～</span><br>
+                    <span class="say">2018年2月20日，</span><br>
+                     <span class="say">我终于见到了宝贝，然后我们坠入了爱河~</span><br>
+                    <br>
+                    
+                      <span class="say">感谢命运让我遇到的了那个我想照顾一生的人，</span><br>
+                       <span class="say">也希望在接下来的岁月里我们度过这些美好的年华。</span><br>
+                        <span class="say">宝贝我爱你~希望你快乐~</span><br>
+                         
+                   <br>
+                    <span class="say"><span class="space"></span> -- Yours, 小啾啾.</span>
+                    </div>
+                </div>
+                <div id="clock-box">
+                    <a href="" target="_blank">大萌子</a> 与 <a href="" target="_blank">小啾啾</a> 在一起的
+                        <div id="clock"></div>
+                </div>
+                <canvas id="canvas" width="1100" height="680"></canvas>
+            </div>
+            <audio src="love.mp3" autoplay="autoplay"></audio>
+        </div>
+    
+    <script>
+    </script>
+
+    <script>
+    (function(){
+        var canvas = $('#canvas');
+
+        if (!canvas[0].getContext) {
+            $("#error").show();
+            return false;
         }
-        setInterval(this.drawLove.bind(this), this.DURATION);
-    },
-    drawLove: function()
-    {
-        context.clearRect(0, 0, WIDTH, HEIGHT);
-        for (var key in this.loves)
-        {
-            this.loves[key].draw();
+
+        var width = canvas.width();
+        var height = canvas.height();
+        
+        canvas.attr("width", width);
+        canvas.attr("height", height);
+
+        var opts = {
+            seed: {
+                x: width / 2 - 20,
+                color: "rgb(190, 26, 37)",
+                scale: 2
+            },
+            branch: [
+                [535, 680, 570, 250, 500, 200, 30, 100, [
+                    [540, 500, 455, 417, 340, 400, 13, 100, [
+                        [450, 435, 434, 430, 394, 395, 2, 40]
+                    ]],
+                    [550, 445, 600, 356, 680, 345, 12, 100, [
+                        [578, 400, 648, 409, 661, 426, 3, 80]
+                    ]],
+                    [539, 281, 537, 248, 534, 217, 3, 40],
+                    [546, 397, 413, 247, 328, 244, 9, 80, [
+                        [427, 286, 383, 253, 371, 205, 2, 40],
+                        [498, 345, 435, 315, 395, 330, 4, 60]
+                    ]],
+                    [546, 357, 608, 252, 678, 221, 6, 100, [
+                        [590, 293, 646, 277, 648, 271, 2, 80]
+                    ]]
+                ]] 
+            ],
+            bloom: {
+                num: 700,
+                width: 1080,
+                height: 650,
+            },
+            footer: {
+                width: 1200,
+                height: 5,
+                speed: 10,
+            }
         }
-    }
-}
-function Love()
-{
-    var me = this;
-    function rand() 
-    {
-        me.maxScale = (Math.random() * 3.2 + 1.2) * WIDTH / 521;
-        me.curScale = 1.2 * WIDTH / 521;
-        me.x = Math.floor(Math.random() * WIDTH - 40);
-        me.y = Math.floor(HEIGHT - Math.random() * 200);
-        me.ColR = Math.floor(Math.random() * 255);
-        me.ColG = Math.floor(Math.random() * 255);
-        me.ColB = Math.floor(Math.random() * 255);
-        me.alpha = Math.random() * 0.2 + 0.8;
-        me.vector = Math.random() * 5 + 0.4;
-    }
-    (function(){rand();} ());
-    me.draw = function()
-    {
-        if (me.alpha < 0.01) rand();
-        if(me.curScale < me.maxScale) me.curScale += 0.3;
-        x = me.x;
-        y = me.y;
-        scale = me.curScale;
-        context.fillStyle = "rgba(" + me.ColR + "," + me.ColG + "," + me.ColB + "," + me.alpha + ")";
-        context.shadowBlur = 10;
-        context.shadowColor = "rgb(" + me.ColR + "," + me.ColG + "," + me.ColB + ")";
-        context.beginPath();
-        context.bezierCurveTo( x + 2.5*scale, y + 2.5*scale, x + 2.0*scale, y, x, y );
-        context.bezierCurveTo( x - 3.0*scale, y, x - 3.0*scale, y + 3.5*scale,x - 3.0*scale,y + 3.5*scale );
-        context.bezierCurveTo( x - 3.0*scale, y + 5.5*scale, x - 1.0*scale, y + 7.7*scale, x + 2.5*scale, y + 9.5*scale );
-        context.bezierCurveTo( x + 6.0*scale, y + 7.7*scale, x + 8.0*scale, y + 5.5*scale, x + 8.0*scale, y + 3.5*scale );
-        context.bezierCurveTo( x + 8.0*scale, y + 3.5*scale, x + 8.0*scale, y, x + 5.0*scale, y );
-        context.bezierCurveTo( x + 3.5*scale, y, x + 2.5*scale, y + 2.5*scale, x + 2.5*scale, y + 2.5*scale );
-        context.fill();
-        context.closePath();
-        me.y -= me.vector;
-        me.alpha -= (me.vector / 2.9 * 3.5 / HEIGHT);
-    }
-}
-window.onload = function()
-{
-    start.begin();
-}
-</script>
+
+        var tree = new Tree(canvas[0], width, height, opts);
+        var seed = tree.seed;
+        var foot = tree.footer;
+        var hold = 1;
+
+        canvas.click(function(e) {
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            if (seed.hover(x, y)) {
+                hold = 0; 
+                canvas.unbind("click");
+                canvas.unbind("mousemove");
+                canvas.removeClass('hand');
+            }
+        }).mousemove(function(e){
+            var offset = canvas.offset(), x, y;
+            x = e.pageX - offset.left;
+            y = e.pageY - offset.top;
+            canvas.toggleClass('hand', seed.hover(x, y));
+        });
+
+        var seedAnimate = eval(Jscex.compile("async", function () {
+            seed.draw();
+            while (hold) {
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canScale()) {
+                seed.scale(0.95);
+                $await(Jscex.Async.sleep(10));
+            }
+            while (seed.canMove()) {
+                seed.move(0, 2);
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+        }));
+
+        var growAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.grow();
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canGrow());
+        }));
+
+        var flowAnimate = eval(Jscex.compile("async", function () {
+            do {
+                tree.flower(2);
+                $await(Jscex.Async.sleep(10));
+            } while (tree.canFlower());
+        }));
+
+        var moveAnimate = eval(Jscex.compile("async", function () {
+            tree.snapshot("p1", 240, 0, 610, 680);
+            while (tree.move("p1", 500, 0)) {
+                foot.draw();
+                $await(Jscex.Async.sleep(10));
+            }
+            foot.draw();
+            tree.snapshot("p2", 500, 0, 610, 680);
+
+            // 会有闪烁不得意这样做, (＞﹏＜)
+            canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+            canvas.css("background", "#ffe");
+            $await(Jscex.Async.sleep(300));
+            canvas.css("background", "none");
+        }));
+
+        var jumpAnimate = eval(Jscex.compile("async", function () {
+            var ctx = tree.ctx;
+            while (true) {
+                tree.ctx.clearRect(0, 0, width, height);
+                tree.jump();
+                foot.draw();
+                $await(Jscex.Async.sleep(25));
+            }
+        }));
+
+        var textAnimate = eval(Jscex.compile("async", function () {
+            var together = new Date();
+            together.setFullYear(2018, 1, 12);
+            together.setHours(18);
+            together.setMinutes(8);
+            together.setSeconds(0);
+            together.setMilliseconds(0);
+
+            $("#code").show().typewriter();
+            $("#clock-box").fadeIn(500);
+            while (true) {
+                timeElapse(together);
+                $await(Jscex.Async.sleep(1000));
+            }
+        }));
+
+        var runAsync = eval(Jscex.compile("async", function () {
+            $await(seedAnimate());
+            $await(growAnimate());
+            $await(flowAnimate());
+            $await(moveAnimate());
+
+            textAnimate().start();
+
+            $await(jumpAnimate());
+        }));
+
+        runAsync().start();
+    })();
+    </script>
+
+
+
+</body></html>
