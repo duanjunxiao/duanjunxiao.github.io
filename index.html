@@ -45,7 +45,7 @@
                 </div>
                 <canvas id="canvas" width="1100" height="680"></canvas>
             </div>
-            <audio src="./music.mp3" autoplay="true" loop="loop"></audio>
+            <audio src="./music.mp3" autoplay="true" loop="loop" id="audio"></audio>
         </div>
     
     <script>
@@ -209,6 +209,12 @@
 
         runAsync().start();
     })();
+    $(document).one('WeixinJSBridgeReady', function () {
+        var audio = document.getElementById("audio");
+        audio.play();
+        audio.setAttribute('src', './music.mp3'); // 替换src
+        audio.load();
+    })
     </script>
 
 
